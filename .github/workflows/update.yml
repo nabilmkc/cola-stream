@@ -2,8 +2,9 @@ name: Run Scraper
 
 on:
   workflow_dispatch:
+
   schedule:
-    - cron: "*/10 * * * *"   # setiap 10 menit
+    - cron: "*/10 * * * *"
 
 permissions:
   contents: write
@@ -31,7 +32,7 @@ jobs:
 
       - name: Run scraper
         env:
-          REPO_RAW: https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/main
+          REPO_RAW: "https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/main"
         run: |
           python scraper.py
 
@@ -40,7 +41,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add output.json thumbs/
+          git add -A
 
           if git diff --cached --quiet; then
             echo "No changes."
@@ -48,4 +49,4 @@ jobs:
           fi
 
           git commit -m "Update output [skip ci]"
-          git push
+          git push origin HEAD:${{ github.ref_name }}
