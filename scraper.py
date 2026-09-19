@@ -39,7 +39,7 @@ def parse_kickoff(time_str: str, date_str: str = ""):
         return None
 
     if d:
-        m3 = re.match(r"(\d{1,2})/(\d{1,2})/(\d{4})", d)
+        m3 = re.match(r"(\d{1,2})[-/](\d{1,2})(?:[-/]\d{4})?", d)
         if m3:
             try: return datetime(int(m3.group(3)), int(m3.group(2)), int(m3.group(1)), hh, mm, tzinfo=VN_TZ)
             except ValueError: pass
@@ -68,8 +68,6 @@ HEADERS = {
 }
 
 API_LIVE      = "https://api.cltvlv.com/api/matches"
-API_ALL       = "https://api.cltvlv.com/api/matches"
-API_FIXTURES  = "https://api.cltvlv.com/api/matches"
 
 THUMBS_DIR    = "thumbs"
 REPO_RAW      = os.environ.get("REPO_RAW", "")
